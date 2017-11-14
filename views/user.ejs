@@ -1,0 +1,50 @@
+<%- include('header') %>
+<div class="ui grid">
+  <div class="four wide column"></div>
+  <div class="eight wide column">
+    <h3>修改用户名</h3>
+    <form class="ui form segment" action="/user/name" method="post" enctype="multipart/form-data">
+      <div class="field required">
+        <label>用户名</label>
+        <input placeholder="<%= user.name %>" type="text" name="name">
+      </div>
+      <input type="submit" class="ui button fluid" value="修改">
+    </form>
+    <h3>修改密码</h3>
+    <form class="ui form segment" action="/user/password" method="post" enctype="multipart/form-data">
+      <div class="field required">
+        <label>旧密码</label>
+        <input placeholder="密码" type="password" name="oldPassword">
+      </div>
+      <div class="field required">
+        <label>新密码</label>
+        <inPut placeholder="密码" type="password" name="newPassword">
+      </div>
+      <div class="field required">
+        <label>重复密码</label>
+        <input placeholder="重复密码" type="password" name="repassword">
+      </div>
+      <input type="submit" class="ui button fluid" value="修改">
+    </form>
+    <h3>修改头像</h3>
+    <form class="ui form segment" action="/user/avatar" method="post" enctype="multipart/form-data">
+      <img class="avatar" src="/img/<%= user.avatar %>">
+      <div class="field required">
+        <label>头像</label>
+        <input type="file" name="avatar">
+      </div>
+      <input type="submit" class="ui button fluid" value="修改">
+    </form>
+    <h3>修改个人简介</h3>
+    <form class="ui form segment" action="/user/bio" method="post" enctype="multipart/form-data">
+      <p><%= user.bio %></p>
+      <div class="field required">
+        <label>个人简介</label>
+        <textarea name="bio" rows="5" v-model="user.bio"><%= user.bio %></textarea>
+      </div>
+      <input type="submit" class="ui button fluid" value="修改">
+    </form>
+  </div>
+</div>
+
+<%- include('footer') %>

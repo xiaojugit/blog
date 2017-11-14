@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>简单优秀小巧的JS模板引擎</title>
+    <style>
+    a {
+        /*display: block;*/
+    }
+    </style>
+</head>
+
+<body>
+<!-- 偷师于此 -->
+<a href="http://blog.jobbole.com/56689/">只有20行Javascript代码！手把手教你写一个页面模板引擎</a>
+    <div id="demo"></div>
+    <script type="template" id="tpl_test">My skills:
+        <%if(this.showSkills) {%>
+            <%for(var index in this.skills) {%>
+                <a href="#"><%this.skills[index]%></a>
+                <%}%>
+                <%} else {%>
+                    <p>none</p>
+                    <%}%>
+    </script>
+    <script>
+    'use strict'
+    var templateEngine = function(tpl, data) {
+        var re = /<%([^%>]+)?%>/g,
+            reExp = /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g,
+            code = 'var str="";\n',
+            _match,
+            cursor = 0;
+        var add = function(line, js) {
+            js ? code += line.match(reExp) ? line + '\n' : 'str += ' + line + ';\n' :
+                code += 'str += "' + line.replace(/"/g, '\\"') + '";\n';
+            return add;
+        };
+        while (_match = re.exec(tpl)) {
+            add(tpl.slice(cursor, _match.index))(_match[1], true);
+            cursor = _match.index + _match[0].length;
+        }
+        add(tpl.substr(cursor, tpl.length - cursor));
+        code += 'return str;'; // <-- return the result
+        return new Function(code.replace(/[\r\t\n]/g, '')).apply(data);
+    }
+
+    var template = 'My skills:' +
+        '<%if(this.showSkills) {%>' +
+        '<%for(var index in this.skills) {%>' +
+        '<a href="#"><%this.skills[index]%></a>' +
+        '<%}%>' +
+        '<%} else {%>' +
+        '<p>none</p>' +
+        '<%}%>';
+    var template = (document.querySelector('#tpl_test').innerHTML).replace(/[\r\t\n]/g, '');
+    document.querySelector('#demo').innerHTML = templateEngine(template, {
+        skills: ["js", "html", "css"],
+        showSkills: true
+    });
+    </script>
+</body>
+
+</html>
