@@ -1,2 +1,2 @@
 # blog
-一个node blog
+一个简单的node-express-mongodb blog
